@@ -1,50 +1,64 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <a class="navbar-brand" routerLink="/">
-    <img src="https://www.teenvio.com/es/wp-content/plugins/g1-social-icons/images/github/github-256.png" width="50" height="50" alt="logo">
-    {{ title }}
+
+
   </a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto nav">
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/user">Search User</a>
-      </li>
+
       <li class="nav-item active">
         <a class="nav-link" routerLink="/organization">Search Organization <span class="sr-only">(current)</span></a>
       </li>
     </ul>
   </div>
 </nav>
-<nav aria-label="breadcrumb">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a routerLink="">Dashboard</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Search Organization</li>
-  </ol>
-</nav>
 
+<br>
 <div class="container">
-    <div class="input-group mb-3 col-xs-12 col-md-4 input-padding">
-      <input (keyup)="onKey($event)" type="text" class="form-control" placeholder="Type Organisation Username" aria-label="Type Organisation Username" aria-describedby="button-addon2">
-      <div class="input-group-append">
-        <button class="btn btn-success" type="button" id="button-addon2" (click)="search($event.value)" [disabled]="noInput">Search</button>
-      </div>
-   <div class="spinner-border text-primary" role="status" style="margin-left: 10px" *ngIf="isLoading">
-        <span class="sr-only">Loading...</span>
-      </div>
+  <div class="input-group mb-3 col-xs-12 col-md-4 input-padding">
+    <input (keyup)="onKey($event)" type="text" class="form-control" placeholder="Type Organisation Username"
+      aria-label="Type Organisation Username" aria-describedby="button-addon2">
+    <div class="input-group-append">
+      <button class="btn btn-success" type="button" id="button-addon2" (click)="search($event.value)"
+        [disabled]="noInput">Search</button>
     </div>
-    <h5 *ngIf="getFetchSuccess">Search Results For {{values}}</h5>
-</div>
-
-<app-repository *ngIf="getFetchSuccess" [passData]="repoArrays"></app-repository>
-
-<div class="container" *ngIf="NoOrgs && getFetchSuccess">
-<div class="card text-center">
-  <div class="card-body">
-    <h5 class="card-title">Error</h5>
-    <p class="card-text">No Organization found</p>
   </div>
 </div>
+
+<br>
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-md-4" *ngFor="let item of arrayData" style="margin-bottom: 20px">
+      <div class="card" [ngClass]="{'bg-warning': item.fork == true , 'bg-white': item.fork !== true }"
+        style="margin-bottom: 10px; min-height: 200px">
+        <div class="card-body">
+          <a href="{{item.html_url}}" target="_blank" style="text-decoration: none; color: #000">
+            <h5 class="card-title">{{item.name  }}</h5>
+          </a>
+          <h6 class="card-subtitle mb-2 text-muted">Language: {{item.language}}</h6>
+          <p class="card-text">{{item.description  }}</p>
+          <ul class="list-inline Left">
+            <li class="list-inline-item" style="margin-right: 30px"> <span>private:</span>{{item.private}}
+            </li>
+            <li class="list-inline-item" style="margin-right: 30px"> <span>watch:</span>{{item.watchers_count}}
+            </li>
+            <li class="list-inline-item"><span>fork:</span> {{item.forks_count}}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container" *ngIf="NoOrgs && getFetchSuccess">
+  <div class="card text-center">
+    <div class="card-body">
+      <h5 class="card-title">Error</h5>
+      <p class="card-text">No Organization found</p>
+    </div>
+  </div>
 </div>
