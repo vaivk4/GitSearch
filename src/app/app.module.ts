@@ -6,7 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { RepositoryComponent } from './repository/repository/repository.component';
 import { HttpClientModule } from '@angular/common/http'
-import { TruncatePipe } from '../truncate.pipe';
+
 
 @NgModule({
   declarations: [
